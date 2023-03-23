@@ -16,6 +16,11 @@
 	border: 1px solid $grey-2;
 }
 
+.map-container {
+	height: 100%;
+	width: 100%;
+}
+
 .map-sidebar {
 	position: absolute;
 	background-color: rgba(35, 55, 75, 0.9);
