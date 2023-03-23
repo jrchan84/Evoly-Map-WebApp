@@ -1,0 +1,58 @@
+@import './common.scss';
+
+.select {
+    position: relative;
+    display: flex;
+    margin-bottom: $margin-md;
+    width: 100%;
+}
+
+.select select {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+
+    margin: $margin-sm;
+    padding: $padding-sm;
+    outline: 0;
+    border: 1px solid $grey-2;
+    border-radius: 20px;
+    background: $light;
+    color: $shadow;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: color 0.5s;
+    transition: background 0.5s;
+    transition: border 0.5s;
+}
+
+.select select::-ms-expand {
+    display: none;
+}
+
+.select select:hover,
+.select select:focus {
+    color: $dark;
+    background: $grey-1;
+    border: 1px solid $shadow;
+}
+
+.select select:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.select-arrow {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    width: 3px;
+    height: 3px;
+    border: solid $primary;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}

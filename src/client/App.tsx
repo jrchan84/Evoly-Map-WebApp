@@ -1,30 +1,17 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Hero from './components/Hero';
+import './scss/app.scss';
 
-/* HOOK REACT EXAMPLE */
-const App = (props: AppProps) => {
-	const [greeting, setGreeting] = useState<string>('');
-
-	useEffect(() => {
-		async function getGreeting() {
-			try {
-				const res = await fetch('/api/hello');
-				const greeting = await res.json();
-				setGreeting(greeting);
-			} catch (error) {
-				console.log(error);
-			}
-		}
-		getGreeting();
-	}, []);
-
+function App() {
 	return (
-		<main className="container my-5">
-			<h1 className="text-primary text-center">Hello {greeting}!</h1>
-		</main>
+		<div className="app">
+			<Header/>
+			<Hero/>
+			<Footer/>
+		</div>
 	);
 };
-
-interface AppProps {}
 
 export default App;
