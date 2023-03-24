@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import Sidebar from './Sidebar';
-import Map from './Map';
+import MapBox from './MapBox';
 import '../scss/hero.scss';
 
 function Hero() {
@@ -14,7 +14,7 @@ function Hero() {
     return (
         <div className="hero">
             <Sidebar handleSelection={handleSelection}/>
-            <Map selectedOption={selectedOption}/>
+            <MapBox selectedOption={selectedOption}/>
         </div>
     );
 }

@@ -13,6 +13,14 @@ import { config } from "../db_config";
  */
 export interface Dataset {
     datasetId: string;
+    iconPoints: IconPoint[];
+}
+
+/**
+ * Server-side interface of set of points with the same iconType
+ */
+interface IconPoint {
+    iconType: string;
     points: Point[];
 }
 
@@ -23,7 +31,6 @@ interface Point {
     coordinateId: string;
     latitude: number;
     longitude: number;
-    iconType: string;
 }
 
 /**
@@ -90,19 +97,36 @@ export default class DatasetModel {
             return null;
         }
 
-        const points: Point[] = entries.map((entry) => {
+        const iconMap: Map<string, Point[]> = new Map();
+
+        entries.forEach((entry: Record<string, AttributeValue>) => {
+            const iconType: string = entry.icon_type.S!;
             const point: Point = {
                 coordinateId: entry.coordinate_id.S!,
                 latitude: parseFloat(entry.latitude.N!),
                 longitude: parseFloat(entry.longitude.N!),
-                iconType: entry.icon_type.S!,
             }
-            return point;
+
+            if (iconMap.has(iconType)) {
+                iconMap.set(iconType, [...iconMap.get(iconType)!, point]);
+            } else {
+                iconMap.set(iconType, [point]);
+            }
         });
+
+        const iconPoints: IconPoint[] = [];
+        iconMap.forEach((points: Point[], iconType: string) => {
+            const iconPoint: IconPoint = {
+                iconType: iconType,
+                points: points
+            }
+            iconPoints.push(iconPoint);
+        });
+
 
         const dataset: Dataset = {
             datasetId,
-            points
+            iconPoints
         }
 
         return dataset;

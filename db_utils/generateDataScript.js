@@ -85,8 +85,13 @@ ddbClient.describeTable(describeParams, function(err, data) {
           // Wait for table to become active
           await waitForTable();
 
-          // Generate four datasets of size 10, 100, 1000, 10000
-          const datasets = [generateDataset('dataset_10', 10), generateDataset('dataset_100', 100), generateDataset('dataset_1000', 1000), generateDataset('dataset_10000', 10000)];
+          // Generate four datasets of increasing size
+          const datasets = [
+            generateDataset('dataset_10', 10), 
+            generateDataset('dataset_100', 100), 
+            generateDataset('dataset_1000', 1000), 
+            generateDataset('dataset_10000', 10000)
+          ];
 
           // Add items to table
           datasets.forEach((set) => {
