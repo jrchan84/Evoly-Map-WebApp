@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import DatasetModel, { Dataset } from "../models/dataset"
+import DatasetModel from "../models/dataset"
+import { Dataset } from '../../shared/models/dataset';
+
 
 /**
  * Dataset Controller for handling dataset requests

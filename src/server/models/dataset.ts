@@ -7,31 +7,7 @@ import {
     AttributeValue
 } from "@aws-sdk/client-dynamodb";
 import { config } from "../db_config";
-
-/**
- * Server-side interface of a dataset
- */
-export interface Dataset {
-    datasetId: string;
-    iconPoints: IconPoint[];
-}
-
-/**
- * Server-side interface of set of points with the same iconType
- */
-interface IconPoint {
-    iconType: string;
-    points: Point[];
-}
-
-/**
- * Server-side representation of a dataset's points
- */
-interface Point {
-    coordinateId: string;
-    latitude: number;
-    longitude: number;
-}
+import { Dataset, IconPoint, Point } from '../../shared/models/dataset';
 
 /**
  * Model layer wrapper around database operations
