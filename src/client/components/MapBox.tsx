@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { getDatasetsById } from '../api/dataset';
-import { Dataset, IconPoint, Point } from '../models/dataset';
+import { Dataset, IconPoint, Point } from '../../shared/models/dataset';
 import mapboxgl from 'mapbox-gl';
 import svgMap from '../icons/icons';
 import '../scss/map.scss';

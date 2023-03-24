@@ -13,7 +13,7 @@
       ]
     },
     "include": [
-        "src/server/**/*"
+        "src/server/**/*", "src/shared/**/*"
     ],
     "exclude": [
         "node_modules"

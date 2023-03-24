@@ -1,5 +1,5 @@
 /**
- * Server API interface of a dataset
+ * Interface of a dataset
  */
 export interface Dataset {
     datasetId: string;
@@ -7,7 +7,7 @@ export interface Dataset {
 }
 
 /**
- * Server API interface of set of points with the same iconType
+ * Interface of set of points with the same iconType
  */
 export interface IconPoint {
     iconType: string;
@@ -15,7 +15,7 @@ export interface IconPoint {
 }
 
 /**
- * Server API interface of a dataset's points
+ * Interface of a dataset's points
  */
 export interface Point {
     coordinateId: string;
