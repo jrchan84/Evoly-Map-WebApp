@@ -47,8 +47,6 @@ function MapBox({ selectedOption }: Props) {
 		const iconMap: Map<string, any[]> = new Map();
 
 		getDatasetsById(selectedOption).then((data: Dataset) => {
-			console.log(data)
-
 			data.iconPoints.forEach((set: IconPoint) => {
 				iconMap.set(set.iconType, set.points);
 			});
