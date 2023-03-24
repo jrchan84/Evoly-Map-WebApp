@@ -16,7 +16,7 @@ svgMap.set("circle-stroked", circleStrokedSVG);
 svgMap.set("circle", circleSVG);
 svgMap.set("construction", constructionSVG);
 svgMap.set("cross", crossSVG);
-svgMap.set("informationSVG", informationSVG);
+svgMap.set("information", informationSVG);
 svgMap.set("marker-stroked", markerStroked);
 svgMap.set("marker", marker);
 svgMap.set("roadblock", roadblock);

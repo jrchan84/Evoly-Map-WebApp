@@ -38,7 +38,6 @@ interface Point {
  */
 export default class DatasetModel {
     private client: DynamoDBClient;
-    // TODO: Caching?
 
     /**
      * @constructor Initializes a DynamoDB Client in the region set in db_config
@@ -66,6 +65,7 @@ export default class DatasetModel {
             return [];
         }
 
+        // Store unique dataset_id's
         const datasetIds = new Set<string>();
 
         entries.forEach((item) => {
@@ -97,15 +97,15 @@ export default class DatasetModel {
             return null;
         }
 
+        // Seperate points by icon-type
         const iconMap: Map<string, Point[]> = new Map();
-
         entries.forEach((entry: Record<string, AttributeValue>) => {
             const iconType: string = entry.icon_type.S!;
             const point: Point = {
                 coordinateId: entry.coordinate_id.S!,
                 latitude: parseFloat(entry.latitude.N!),
                 longitude: parseFloat(entry.longitude.N!),
-            }
+            };
 
             if (iconMap.has(iconType)) {
                 iconMap.set(iconType, [...iconMap.get(iconType)!, point]);
@@ -119,7 +119,7 @@ export default class DatasetModel {
             const iconPoint: IconPoint = {
                 iconType: iconType,
                 points: points
-            }
+            };
             iconPoints.push(iconPoint);
         });
 
@@ -127,7 +127,7 @@ export default class DatasetModel {
         const dataset: Dataset = {
             datasetId,
             iconPoints
-        }
+        };
 
         return dataset;
     }

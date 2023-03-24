@@ -1,7 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { getDatasets } from '../api/dataset';
 import '../scss/dropdown.scss';
-import { AnyArn } from "aws-sdk/clients/groundstation";
 
 type DropdownProps = {
 	onOptionSelect: (x: string) => void;
@@ -12,15 +11,15 @@ function Dropdown({ onOptionSelect }: DropdownProps) {
 
     useEffect(() => {
         getDatasets().then((data) => {
-            setDatasets(data)
+            setDatasets(data);
         });
     }, []);
 
     const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-            const selectedId = event.target.value;
-            if (selectedId) {
-                onOptionSelect(selectedId);
-            }
+        const selectedId = event.target.value;
+        if (selectedId) {
+            onOptionSelect(selectedId);
+        }
     };
 
     return (

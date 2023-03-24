@@ -6,8 +6,11 @@ import svgMap from '../icons/icons';
 import '../scss/map.scss';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-// Public access token from mapboxgl (safe to expose)
-mapboxgl.accessToken = 'pk.eyJ1IjoianJjaGFuIiwiYSI6ImNsZmpscmkyMDAyM2o0NWx6NTRrNTIyMnEifQ.j0wbrzIDQhtK9eeWPaLU3Q';
+/**
+ * MapBox public token. This is safe and necessary to expose in the client.
+ * Safegaurds to prevent malicious usage is done through url-restrictions and periodically rotating tokens.
+ */
+mapboxgl.accessToken = "pk.eyJ1IjoianJjaGFuIiwiYSI6ImNsZm4yZXN3bzBodXczdHBmMmpzbnY2cmQifQ.56dk1M3t5xiopQ0E96cznQ";
 
 type Props = {
 	selectedOption: string;
@@ -21,6 +24,9 @@ function MapBox({ selectedOption }: Props) {
 	const [lat, setLat] = useState(44);
 	const [zoom, setZoom] = useState(2);
 
+	/**
+	 * Initialize default map on load
+	 */
 	useEffect(() => {
 		if (map.current) return; // initialize default map only once
 		map.current = new mapboxgl.Map({
@@ -31,6 +37,9 @@ function MapBox({ selectedOption }: Props) {
 		});
 	}, []);
 
+	/**
+	 * Update lat, lon, zoom values on map move
+	 */
 	useEffect(() => {
 		if (!map.current) return; // wait for map to initialize
 		map.current.on('move', () => {
@@ -40,27 +49,37 @@ function MapBox({ selectedOption }: Props) {
 		});
 	});
 
+	/**
+	 * Create source and style layers when a dataset is selected
+	 */
 	useEffect(() => {
 		if (!map.current) return; // wait for map to initialize
 		if (!selectedOption) return; // wait for selection to populate
 
-		const iconMap: Map<string, any[]> = new Map();
+		// Map to seperate associated points in dataset with icon-type
+		const iconMap: Map<string, Point[]> = new Map();
 
+		// fetch Dataset from server
 		getDatasetsById(selectedOption).then((data: Dataset) => {
+
 			data.iconPoints.forEach((set: IconPoint) => {
 				iconMap.set(set.iconType, set.points);
 			});
 
+			svgMap.forEach((_, key) => {
+				// Remove any existing layers and source
+				if (map.current.getLayer(key)) {
+					map.current.removeLayer(key);
+				}
+				if (map.current.getSource(key)) {
+					map.current.removeSource(key);
+				}
+			})
+
+			// for each icon-type, create source and style layer
 			iconMap.forEach((points, iconType) => {
 
-				if (map.current.getLayer(iconType)) {
-					map.current.removeLayer(iconType);
-				}
-
-				if (map.current.getSource(iconType)) {
-					map.current.removeSource(iconType);
-				}
-
+				// Add icon svg once when encountered
 				if (!map.current.hasImage(iconType)) {
 					let img = new Image(20,20)
 					img.onload = () => map.current.addImage(iconType, img)
@@ -82,6 +101,7 @@ function MapBox({ selectedOption }: Props) {
 					features.push(feat);
 				});
 
+				// Add a source layer
 				map.current.addSource(iconType, {
 					'type': 'geojson',
 					'data': {
@@ -89,7 +109,8 @@ function MapBox({ selectedOption }: Props) {
 						'features': features
 					},
 					'cluster': true,
-            		'clusterRadius': 80,
+            		'clusterRadius': 50,
+					'clusterMaxZoom': 3 // interpolated to 4
 				});
 						
 				// Add a symbol layer
@@ -99,13 +120,15 @@ function MapBox({ selectedOption }: Props) {
 					'source': iconType,
 					'layout': {
 						'icon-image': iconType,
+						'icon-size': ['step', ['zoom'], 1.5, 3, 1.25, 4, 1],
+						'icon-allow-overlap': ['step', ['zoom'], false, 4, true]
 					}
 				});
 
+				// Set popup with icon-type title to display on click
 				map.current.on('click', iconType, (e: any) => {
 					// Copy coordinates array.
 					const coordinates = e.features[0].geometry.coordinates.slice();
-					const title = e.features[0].properties.title;
 						
 					// Ensure that if the map is zoomed out such that multiple
 					// copies of the feature are visible, the popup appears
@@ -115,9 +138,9 @@ function MapBox({ selectedOption }: Props) {
 					}
 						
 					new mapboxgl.Popup()
-					.setLngLat(coordinates)
-					.setHTML(title)
-					.addTo(map.current);
+						.setLngLat(coordinates)
+						.setHTML(iconType)
+						.addTo(map.current);
 				});
 
 			})

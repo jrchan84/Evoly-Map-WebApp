@@ -6,10 +6,6 @@ const router = express.Router();
 const model: DatasetModel = new DatasetModel();
 const datasetController: DatasetController = new DatasetController(model);
 
-router.get('/api/hello', (req, res) => {
-    res.json('World');
-});
-
 router.get('/api/datasets', (req, res) => {
     datasetController.getDatasets(res);
 });

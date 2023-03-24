@@ -7,8 +7,6 @@ import DatasetModel, { Dataset } from "../models/dataset"
 export default class DatasetController {
     private model: DatasetModel;
 
-    // TODO: Pagination?
-
     constructor(model: DatasetModel) {
         this.model = model;
     } 

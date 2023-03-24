@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
 import { FaGithub } from "react-icons/fa";
 import '../scss/footer.scss';
 
