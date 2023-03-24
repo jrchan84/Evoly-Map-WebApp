@@ -11,15 +11,26 @@ const ddbClient = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 // List of icons to randomly sample from
 const makiIcons = ['circle', 'circle-stroked', 'caution', 'marker', 'marker-stroked', 'information', 'construction', 'cross', 'roadblock', 'star']
 
-// Generate a dataset of given size with random data
+// List of [latitude, longitude] of major cities.
+const cities = require('./cities');
+
+// Generate a dataset of given size with random data near cities
 const generateDataset = (dataset_id, size) => {
   return {
     dataset_id: dataset_id,
     points: Array.from({ length: size }, (_, i) => {
+      // Choose random city and radius
+      const city = faker.helpers.arrayElement(cities);
+      const bound = faker.datatype.number(1.5);
+      let latMax = Math.min(city[0]+bound, 90);
+      let latMin = Math.max(city[0]-bound, -90);
+      let lonMax = Math.min(city[1]+bound, 180);
+      let lonMin = Math.max(city[1]-bound, -180);
+
       return {
         coordinate_id: `coordinate_${i+1}`,
-        latitude: faker.address.latitude(),
-        longitude: faker.address.longitude(),
+        latitude: faker.address.latitude(max=latMax, min=latMin),
+        longitude: faker.address.longitude(max=lonMax, min=lonMin),
         icon_type: faker.helpers.arrayElement(makiIcons)
       };
     })
@@ -94,11 +105,12 @@ ddbClient.describeTable(describeParams, function(err, data) {
                 if (err) {
                   // console.log("Error putting item:", err);
                 } else {
-                  // console.log("Item added successfully", data);
+                  // console.log("Item added successfully");
                 }
               });
             });
           });
+          console.log("Finished");
         }
       });
     } else {

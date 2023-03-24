@@ -1,19 +1,26 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { getDatasets } from '../api/dataset';
 import '../scss/dropdown.scss';
+import { AnyArn } from "aws-sdk/clients/groundstation";
 
-function Dropdown() {
+type DropdownProps = {
+	onOptionSelect: (x: string) => void;
+}
+
+function Dropdown({ onOptionSelect }: DropdownProps) {
     const [datasets, setDatasets] = useState([]);
 
     useEffect(() => {
-        getDatasets().then((data) => setDatasets(data));
+        getDatasets().then((data) => {
+            setDatasets(data)
+        });
     }, []);
 
     const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-        const selectedId = event.target.value;
-        if (selectedId) {
-            console.log(selectedId);
-        }
+            const selectedId = event.target.value;
+            if (selectedId) {
+                onOptionSelect(selectedId);
+            }
     };
 
     return (

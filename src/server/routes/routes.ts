@@ -14,9 +14,8 @@ router.get('/api/datasets', (req, res) => {
     datasetController.getDatasets(res);
 });
 
-router.get('/api/dataset/:dataset_id', (req, res) => {
+router.get('/api/datasets/:dataset_id', (req, res) => {
     datasetController.getDatasetById(req, res);
-
 });
 
 export default router;

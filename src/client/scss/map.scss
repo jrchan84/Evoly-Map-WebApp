@@ -1,6 +1,7 @@
 @import './common.scss';
 
 .map {
+	position: relative;
 	display: flex;
 	flex-grow: 10;
 	align-self: stretch;
@@ -9,21 +10,22 @@
 	align-items: center;
 
 	margin: $margin-md;
-	padding: $padding-sm;
 	background: $light;
-
 	border-radius: 20px;
-	border: 1px solid $grey-2;
+	border: 5px solid $grey-2;
 }
 
 .map-container {
+	border-radius: 15px;
 	height: 100%;
 	width: 100%;
 }
 
 .map-sidebar {
-	position: absolute;
-	background-color: rgba(35, 55, 75, 0.9);
+	position: relative;
+	background-color: $primary_rbg_opac;
+	backdrop-filter: blur( 85px );
+	-webkit-backdrop-filter: blur( 85px );
 	color: #fff;
 	padding: 6px 12px;
 	font-family: monospace;
