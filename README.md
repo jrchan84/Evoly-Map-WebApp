@@ -155,6 +155,8 @@ Mapbox GL JS is a javascript library for vector maps on the web, that allows for
 
     Server-side code is built and served through `/dist/server.js` and client code is bundled, minified, and served through `/public/js/app.js/`.
 
+    As mentioned earlier in [Deployment](#deployment), through the use of Terser minimizing, webpack bundling, and Express response compression with gzip, we can achieve near perfect lighthouse performance scores on initial page load.
+
 # Out of scope Improvements
 - As mentioned earlier, this application can easily support server-side caching based on buisness requirements as seen in the `redis` branch. This will help scale the application and reduce response times, but at the cost of potentially inconsistent data if the Database operations occur while a dataset is in memory. This option should be considered based on user use cases, and the frequency of changes in the underlying data.
 - SVG icons are currently served statically alongside the client. If dynamic or large sets of icons are required, they can be served through the Server instead through additional endpoints. In fact, MapBox prefers this method of loading `Images` with external url's.
