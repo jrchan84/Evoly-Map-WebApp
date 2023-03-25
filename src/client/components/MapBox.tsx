@@ -10,7 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
  * MapBox public token. This is safe and necessary to expose in the client.
  * Safegaurds to prevent malicious usage is done through url-restrictions and periodically rotating tokens.
  */
-mapboxgl.accessToken = "pk.eyJ1IjoianJjaGFuIiwiYSI6ImNsZm4yZXN3bzBodXczdHBmMmpzbnY2cmQifQ.56dk1M3t5xiopQ0E96cznQ";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN ?? '';
 
 type Props = {
 	selectedOption: string;

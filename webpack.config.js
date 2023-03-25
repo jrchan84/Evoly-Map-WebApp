@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -69,7 +70,12 @@ const clientConfig = {
 	output: {
 		filename: 'app.js',
 		path: path.resolve(__dirname, 'public/js')
-	}
+	},
+	plugins: [
+		new webpack.DefinePlugin({
+		  'process.env.REACT_APP_MAPBOX_TOKEN': JSON.stringify(process.env.REACT_APP_MAPBOX_TOKEN),
+		}),
+	],
 };
 
 module.exports = [serverConfig, clientConfig];
