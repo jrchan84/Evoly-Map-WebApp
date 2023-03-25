@@ -1,5 +1,6 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const serverConfig = {
 	mode: process.env.NODE_ENV || 'development',
@@ -33,7 +34,7 @@ const serverConfig = {
 const clientConfig = {
 	mode: process.env.NODE_ENV || 'development',
 	entry: './src/client/index.tsx',
-	devtool: 'inline-source-map',
+	devtool: process.env.NODE_ENV === 'production' ? false : 'inline-source-map',
 	module: {
 		rules: [
 			{
@@ -57,6 +58,10 @@ const clientConfig = {
 				use: [ 'svg-url-loader'],
 			}
 		]
+	},
+	optimization: {
+		minimize: true,
+		minimizer: [new TerserPlugin()],
 	},
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js', '.css', '.scss']
