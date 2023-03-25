@@ -1,8 +1,10 @@
 import * as express from 'express';
+import * as compression from 'compression';
 import apiRouter from './routes/routes';
 
 const app = express();
 
+app.use(compression());
 app.use(express.static('public'));
 app.use(apiRouter);
 
