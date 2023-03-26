@@ -31,7 +31,7 @@ The live production site can be viewed [here](https://evoly-map-webapp.herokuapp
     - `AWS_ACCESS_KEY_ID` 
     - `AWS_SECRET_ACCESS_KEY` 
         - AWS tokens should be from an IAM user created for this project, and with limited necessary permissions.
-    - `REACT_APP_MAPBOX_TOKEN` **Note**: This **will** be exposed in the client (although obscured through minification). This is necessary, and can be url restricted / rotated to prevent malicious usage in your MapBox account. While possible to proxy requests through the server, it is against MapBox's [product terms](https://www.mapbox.com/legal/product-terms).
+    - `REACT_APP_MAPBOX_TOKEN` **Note**: This **public** token **will** be exposed in the client (although obscured through minification). This is safe and necessary, and can be url restricted / rotated to prevent malicious usage in your MapBox account. While possible to proxy requests through the server, it is against MapBox's [product terms](https://www.mapbox.com/legal/product-terms).
 
 [MacOS Guide](https://support.apple.com/en-ca/guide/terminal/apd382cc5fa-4f58-4449-b20a-41c53c006f8f/mac), 
 [Windows Guide](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/set_1), 
